@@ -15,6 +15,10 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var _mediaQuery = MediaQuery.of(context);
+    double screenWidth = MediaQuery.of(context).size.width;
+    print(screenWidth);
+    double fontSize = screenWidth < 400 ? 15 : 17;
     return GestureDetector(
       onTap: () {
         _dismissKeyboard(context);
@@ -25,7 +29,7 @@ class _WelcomePageState extends State<WelcomePage> {
             child: Column(
               children: [
                 Container(
-                  height: 400,
+                  height: _mediaQuery.size.height * 0.42,
                   width: double.infinity,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
@@ -55,26 +59,26 @@ class _WelcomePageState extends State<WelcomePage> {
                 ),
                 //text
                 Container(
-                  margin: const EdgeInsets.only(left: 5, right: 5),
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.symmetric(horizontal: 25),
                   child: Row(
                     children: [
                       Container(
-                        margin: const EdgeInsets.only(left: 16, right: 12),
-                        height: 1,
-                        width: 100,
-                        color: Colors.grey,
-                      ),
-                      const Text(
+                          margin: const EdgeInsets.only(right: 12),
+                          height: 1,
+                          width: _mediaQuery.size.width * 0.22,
+                          color: Colors.grey),
+                       Text(
                         'Log in or sign up',
                         style: TextStyle(
                             color: Color.fromARGB(255, 65, 61, 61),
-                            fontSize: 17,
+                            fontSize: fontSize,
                             fontWeight: FontWeight.bold),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(left: 12, right: 6),
+                        margin: const EdgeInsets.only(left: 12),
                         height: 1,
-                        width: 100,
+                        width: _mediaQuery.size.width * 0.22,
                         color: Colors.grey,
                       ),
                     ],
@@ -88,18 +92,18 @@ class _WelcomePageState extends State<WelcomePage> {
 
                 const SizedBox(height: 100),
                 //text
-                const Text(
+                 Text(
                   'By continuing, you agree to our',
                   style: TextStyle(
                       color: Color.fromARGB(255, 65, 61, 61),
-                      fontSize: 17,
+                      fontSize: fontSize,
                       fontWeight: FontWeight.bold),
                 ),
-                const Text(
+                 Text(
                   'Terms of Service  Privacy Policy  Content Policy',
                   style: TextStyle(
                       color: Color.fromARGB(255, 65, 61, 61),
-                      fontSize: 17,
+                      fontSize: fontSize,
                       fontWeight: FontWeight.bold),
                 ),
               ],

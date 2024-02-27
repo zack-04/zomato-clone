@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:zomato_clone/data/options_data.dart';
+import 'package:zomato_clone/provider/order_provider.dart';
+import 'package:zomato_clone/screens/my_orders.dart';
+import 'package:zomato_clone/screens/welcome_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -12,6 +16,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(),
@@ -114,8 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     //2nd container
                     Container(
-                      margin:
-                          const EdgeInsets.only(left: 40, right: 15, top: 20),
+                      padding: EdgeInsets.all(screenWidth*0.06),
                       child: Row(
                         children: [
                           Container(
@@ -311,43 +315,49 @@ class _ProfilePageState extends State<ProfilePage> {
                               //list view
                               Container(
                                 child: ListView.separated(
+                                  physics: const ClampingScrollPhysics(),
                                   scrollDirection: Axis.vertical,
                                   shrinkWrap: true,
                                   itemCount: profileOptions.length,
                                   itemBuilder: (context, index) {
-                                    return Container(
-                                      padding: const EdgeInsets.only(
-                                          left: 15, right: 15),
-                                      margin: const EdgeInsets.only(
-                                          top: 15, bottom: 15),
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            padding: const EdgeInsets.all(4),
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Colors.grey[200],
+                                    return GestureDetector(
+                                      onTap: () => _handleItemClick(context, 2),
+                                      child: Container(
+                                        padding: const EdgeInsets.only(
+                                            left: 15, right: 15),
+                                        margin: const EdgeInsets.only(
+                                            top: 15, bottom: 15),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              padding: const EdgeInsets.all(4),
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.grey[200],
+                                              ),
+                                              height: 40,
+                                              width: 40,
+                                              child: Center(
+                                                child:
+                                                    profileOptions[index].icon,
+                                              ),
                                             ),
-                                            height: 40,
-                                            width: 40,
-                                            child: Center(
-                                              child: profileOptions[index].icon,
+                                            const SizedBox(
+                                              width: 20,
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            width: 20,
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              profileOptions[index].title,
-                                              style: const TextStyle(
-                                                  fontSize: 24,
-                                                  fontWeight: FontWeight.w500),
+                                            Expanded(
+                                              child: Text(
+                                                profileOptions[index].title,
+                                                style: const TextStyle(
+                                                    fontSize: 24,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
                                             ),
-                                          ),
-                                          const FaIcon(
-                                              FontAwesomeIcons.angleRight),
-                                        ],
+                                            const FaIcon(
+                                                FontAwesomeIcons.angleRight),
+                                          ],
+                                        ),
                                       ),
                                     );
                                   },
@@ -405,43 +415,50 @@ class _ProfilePageState extends State<ProfilePage> {
                               //list view
                               Container(
                                 child: ListView.separated(
+                                  physics: const ClampingScrollPhysics(),
                                   scrollDirection: Axis.vertical,
                                   shrinkWrap: true,
-                                  itemCount: profileOptions.length,
+                                  itemCount: accountOptions.length,
                                   itemBuilder: (context, index) {
-                                    return Container(
-                                      padding: const EdgeInsets.only(
-                                          left: 15, right: 15),
-                                      margin: const EdgeInsets.only(
-                                          top: 15, bottom: 15),
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            padding: const EdgeInsets.all(4),
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Colors.grey[200],
+                                    return GestureDetector(
+                                      onTap: () =>
+                                          _handleItemClick(context, index),
+                                      child: Container(
+                                        padding: const EdgeInsets.only(
+                                            left: 15, right: 15),
+                                        margin: const EdgeInsets.only(
+                                            top: 15, bottom: 15),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              padding: const EdgeInsets.all(4),
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.grey[200],
+                                              ),
+                                              height: 40,
+                                              width: 40,
+                                              child: Center(
+                                                child:
+                                                    accountOptions[index].icon,
+                                              ),
                                             ),
-                                            height: 40,
-                                            width: 40,
-                                            child: Center(
-                                              child: accountOptions[index].icon,
+                                            const SizedBox(
+                                              width: 20,
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            width: 20,
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              accountOptions[index].title,
-                                              style: const TextStyle(
-                                                  fontSize: 24,
-                                                  fontWeight: FontWeight.w500),
+                                            Expanded(
+                                              child: Text(
+                                                accountOptions[index].title,
+                                                style: const TextStyle(
+                                                    fontSize: 24,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
                                             ),
-                                          ),
-                                          const FaIcon(
-                                              FontAwesomeIcons.angleRight),
-                                        ],
+                                            const FaIcon(
+                                                FontAwesomeIcons.angleRight),
+                                          ],
+                                        ),
                                       ),
                                     );
                                   },
@@ -470,5 +487,31 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
+  }
+
+  // Handler function to handle clicks on each item
+  void _handleItemClick(BuildContext context, int index) {
+    // Perform actions based on the index or any other criteria
+    switch (index) {
+      case 1:
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const WelcomePage(),
+          ),
+        );
+      case 2:
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChangeNotifierProvider(
+              create: (context) => OrderProvider(),
+              child: const MyOrders(),
+            ),
+          ),
+        );
+        break;
+      default:
+    }
   }
 }

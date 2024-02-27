@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:zomato_clone/components/categories_slider.dart';
+import 'package:zomato_clone/components/offer_carousel.dart';
 import 'package:zomato_clone/data/restaurant_data.dart';
-import 'package:zomato_clone/screens/food_page.dart';
+import 'package:zomato_clone/provider/restaurant_provider.dart';
+import 'package:zomato_clone/screens/restaurant_list.dart';
 import 'package:zomato_clone/components/bottom_bar.dart';
 import 'package:zomato_clone/screens/profile_page.dart';
 import 'package:zomato_clone/screens/search_screen.dart';
+import "package:provider/provider.dart";
 
-class MainFoodPage extends StatefulWidget {
-  const MainFoodPage({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<MainFoodPage> createState() => _MainFoodPageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _MainFoodPageState extends State<MainFoodPage> {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,20 +50,20 @@ class _MainFoodPageState extends State<MainFoodPage> {
                         children: [
                           Text(
                             'Home',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                           SizedBox(
                             width: 2,
                           ),
                           FaIcon(
                             FontAwesomeIcons.angleDown,
-                            size: 14,
+                            size: 15,
                           ),
                         ],
                       ),
                       Text(
                         'Karol Bagh, New Delhi',
-                        style: TextStyle(color: Colors.black38, fontSize: 12),
+                        style: TextStyle(color: Colors.black38, fontSize: 13),
                       ),
                     ],
                   ),
@@ -83,7 +87,7 @@ class _MainFoodPageState extends State<MainFoodPage> {
                           },
                           icon: const Icon(
                             Icons.search,
-                            size: 26,
+                            size: 28,
                           ),
                           color: Colors.pink,
                         ),
@@ -104,8 +108,8 @@ class _MainFoodPageState extends State<MainFoodPage> {
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                           ),
-                          height: 32,
-                          width: 32,
+                          height: 36,
+                          width: 36,
                           child: ClipOval(
                             child: Image.asset(
                               'assets/images/img1.jpeg',
@@ -126,8 +130,31 @@ class _MainFoodPageState extends State<MainFoodPage> {
           //food page
           Expanded(
             child: SingleChildScrollView(
-              child: FoodPage(
-                restaurantCount: dummyRestaurants.length,
+              child: Column(
+                children: [
+                  OfferCarousel(),
+                  const SizedBox(height: 8),
+                  //text
+                  Container(
+                    margin: const EdgeInsets.only(left: 20),
+                    alignment: Alignment.centerLeft,
+                    child: const Text(
+                      'Eat what makes you happy',
+                      style: TextStyle(
+                        fontSize: 23,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 11),
+                  //categories slider
+                  CategoriesSlider(),
+                  const SizedBox(height: 10),
+                  ChangeNotifierProvider(
+                    create: (context) => RestaurantProvider(),
+                    child: RestaurantList(),
+                  ),
+                ],
               ),
             ),
           ),

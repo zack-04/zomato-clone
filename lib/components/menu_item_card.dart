@@ -1,14 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:zomato_clone/data/restaurant_data.dart';
 import 'package:zomato_clone/model/menu_item.dart';
+import 'package:zomato_clone/model/restaurant.dart';
+import 'package:zomato_clone/provider/cart_provider.dart';
+import 'package:zomato_clone/screens/cart_screen.dart';
+import 'package:provider/provider.dart';
 
-class MenuItemCard extends StatelessWidget {
-  const MenuItemCard({super.key, required this.menuItem});
+class MenuItemCard extends StatefulWidget {
+  const MenuItemCard(
+      {super.key,
+      required this.menuItem,
+      required this.restaurant,
+      });
 
-  final MenuItem menuItem;
+  final Map<String,dynamic> menuItem;
+  final Map<String,dynamic> restaurant;
+  
+
+  @override
+  State<MenuItemCard> createState() => _MenuItemCardState();
+}
+
+class _MenuItemCardState extends State<MenuItemCard> {
+ 
 
   @override
   Widget build(BuildContext context) {
+    var _mediaQuery = MediaQuery.of(context);
+    double screenWidth = MediaQuery.of(context).size.width;
+    print(screenWidth);
+    double resHeadFontSize = screenWidth < 400 ? 18 : 20;
+    final cartProvider = Provider.of<CartProvider>(context);
     return Container(
+      decoration: BoxDecoration(border: Border(bottom: BorderSide(color: const Color.fromARGB(255, 224, 220, 220), width: 1, style: BorderStyle.solid))),
       height: 280,
       width: double.infinity,
       child: Row(
@@ -16,7 +40,7 @@ class MenuItemCard extends StatelessWidget {
           //text container
           Expanded(
             child: Container(
-              margin: const EdgeInsets.only(left: 20),
+              margin: const EdgeInsets.only(left: 15),
               child: Column(
                 children: [
                   //veg or non veg
@@ -24,38 +48,50 @@ class MenuItemCard extends StatelessWidget {
                     margin: const EdgeInsets.only(top: 30, right: 20),
                     child: Row(
                       children: [
-                        const Icon(
+                         Icon(
                           Icons.eco,
-                          color: Colors.lightGreen,
+                          color: widget.menuItem["isVeg"] ? Colors.lightGreen : Colors.red,
                         ),
                         const SizedBox(
                           width: 4,
                         ),
+                         widget.menuItem["isBestSeller"] ?
                         Container(
                           padding: const EdgeInsets.all(2),
-                          height: 24,
-                          width: 75,
+                          height: _mediaQuery.size.height*0.03,
+                          width: _mediaQuery.size.width*0.2,
+                          alignment: Alignment.center,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(6),
-                            color: Colors.yellow[600],
+                            color: Color.fromARGB(255, 235, 185, 4),
                           ),
                           child: const Text(
                             'Bestseller',
                             style: TextStyle(
                               color: Colors.white,
+                              fontWeight: FontWeight.w600
                             ),
                           ),
                         )
+                         : const SizedBox(
+                          width: 4,
+                        ),
                       ],
                     ),
                   ),
                   const SizedBox(height: 7),
                   //Menu Item name
-                  Text(
-                    menuItem.name,
-                    style: const TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      child: Text(
+                        widget.menuItem["name"],
+                        textAlign: TextAlign.left,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
                   //ratings
@@ -65,19 +101,20 @@ class MenuItemCard extends StatelessWidget {
                       children: [
                         Container(
                           height: 23,
-                          width: 110,
+                          width: _mediaQuery.size.width*0.24,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
-                            color: Colors.pink[50],
+                            border: Border.all(color: Colors.yellow),
+                            color: Colors.yellow[50],
                           ),
                           child: Wrap(
                             // spacing: 8.0,
                             children: List.generate(
                               5,
-                              (index) => const Icon(
+                              (index) =>  Icon(
                                 Icons.star,
-                                color: Colors.yellow,
-                                size: 22.0,
+                                color: Color.fromARGB(255, 235, 185, 4),
+                                size: resHeadFontSize,
                               ),
                             ),
                           ),
@@ -101,7 +138,7 @@ class MenuItemCard extends StatelessWidget {
                     child: Container(
                       margin: const EdgeInsets.only(left: 4),
                       child: Text(
-                        '₹${menuItem.price}',
+                        '₹${widget.menuItem["price"]}',
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
@@ -111,7 +148,9 @@ class MenuItemCard extends StatelessWidget {
                     height: 10,
                   ),
                   //ingredients
-                  Container(child: Text('${menuItem.ingredients}'))
+                  Container(
+                    width: _mediaQuery.size.width*0.5,
+                    child: Text('${widget.menuItem["ingredients"]}',overflow: TextOverflow.ellipsis,maxLines: 4,),)
                 ],
               ),
             ),
@@ -126,7 +165,7 @@ class MenuItemCard extends StatelessWidget {
                 //image
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: Image.network(menuItem.imageUrl),
+                  child: Image.network(widget.menuItem["imageUrl"]),
                 ),
                 //add button
                 Align(
@@ -143,7 +182,7 @@ class MenuItemCard extends StatelessWidget {
                       children: [
                         TextButton(
                           onPressed: () {
-                            // Handle button press
+                            cartProvider.addItem(widget.menuItem, widget.restaurant['name'],);
                           },
                           child: const Center(
                             child: Text(

@@ -7,6 +7,8 @@ class MenuItem {
     required this.ingredients,
     required this.isVeg,
     required this.isBestSeller,
+    this.quantity = 0,
+    
   });
   final String id;
   final String name;
@@ -15,4 +17,10 @@ class MenuItem {
   final String ingredients;
   final bool isVeg;
   final bool isBestSeller;
+  int quantity;
+
+  @override
+  String toString() {
+    return 'MenuItem{id : $id, name: $name, price: $price, quantity: $quantity}';
+  }
 }

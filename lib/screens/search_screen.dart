@@ -6,32 +6,42 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var _mediaQuery = MediaQuery.of(context);
+    double screenWidth = MediaQuery.of(context).size.width;
+    print(screenWidth);
+    double resHeadFontSize = screenWidth < 400 ? 20 : 22;
     return Scaffold(
       body: Column(
         children: [
           //top row
           Container(
-            margin: const EdgeInsets.only(top: 55, bottom: 5),
-            padding: const EdgeInsets.only(left: 13, right: 13),
-            child:  Row(
+            margin:  EdgeInsets.only(top: screenWidth*0.15, bottom: screenWidth*0.02),
+            padding:  EdgeInsets.only(left: screenWidth*0.04,right: screenWidth*0.03,),
+            child: Row(
               children: [
                 const FaIcon(FontAwesomeIcons.locationDot),
                 const SizedBox(
                   width: 6,
                 ),
-                const Text(
-                  'home - Karol Bagh, New De...',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
+                Container(
+                  width: _mediaQuery.size.width * 0.7,
+                  child: Text(
+                    'home - Karol Bagh, New Delhi',
+                    style: TextStyle(
+                      fontSize: resHeadFontSize,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                 ),
-                const Spacer(),
+                SizedBox(width: _mediaQuery.size.width*0.04,),
                 IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const FaIcon(FontAwesomeIcons.xmark),),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const FaIcon(FontAwesomeIcons.xmark),
+                ),
               ],
             ),
           ),

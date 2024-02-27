@@ -7,7 +7,7 @@ class RestaurantCard extends StatelessWidget {
     super.key,
     required this.restaurant,
   });
-  final Restaurant restaurant;
+  final Map<String,dynamic> restaurant;
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +38,11 @@ class RestaurantCard extends StatelessWidget {
             height: 200,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20),),
               color: Colors.white38,
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: NetworkImage(restaurant.imageUrl),
+                image: NetworkImage(restaurant["imageUrl"]),
               ),
             ),
           ),
@@ -70,24 +70,25 @@ class RestaurantCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(restaurant.name),
+                      Text(restaurant["name"], style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22),),
                       Container(
                         padding: const EdgeInsets.only(left: 3),
                         height: 24,
                         width: 50,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(6),
-                          color: Colors.green,
+                          color: Color.fromARGB(255, 67, 144, 70),
                         ),
                         child: Row(
                           children: [
                             Text(
-                              restaurant.rating.toString(),
-                              style: const TextStyle(color: Colors.white),
+                              restaurant["rating"].toStringAsFixed(1),
+                              style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600),
                             ),
                             const Icon(
                               Icons.star,
-                              color: Colors.yellow,
+                              color: Color.fromARGB(255, 245, 199, 35),
+                              size: 22,
                             ),
                           ],
                         ),
@@ -104,10 +105,10 @@ class RestaurantCard extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(restaurant.cuisines),
+                      Text(restaurant["cuisines"]),
                       Text(
-                        'Price Range ${restaurant.priceRange}',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        'Price Range ${restaurant["priceRange"]}',
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                       ),
                     ],
                   ),

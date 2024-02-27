@@ -17,6 +17,7 @@ class _BottomBarState extends State<BottomBar> {
         BottomNavigationBarItem(
           icon: FaIcon(
             FontAwesomeIcons.bagShopping,
+            color: Colors.pink,
           ),
           label: 'Order',
         ),

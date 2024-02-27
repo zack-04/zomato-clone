@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:zomato_clone/screens/main_food_page.dart';
+import 'package:zomato_clone/components/otp_auth.dart';
+import 'package:zomato_clone/screens/home_screen.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -9,6 +11,7 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  TextEditingController phoneController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -52,8 +55,10 @@ class _LoginFormState extends State<LoginForm> {
                       border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const TextField(
-                      decoration: InputDecoration(
+                    child: TextField(
+                      controller: phoneController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
                         hintText: 'Enter your phone number',
                         hintStyle: TextStyle(fontSize: 18),
                         border: InputBorder.none,
@@ -75,12 +80,24 @@ class _LoginFormState extends State<LoginForm> {
               borderRadius: BorderRadius.circular(10),
             ),
             child: TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const MainFoodPage(),
-                  ),
+              onPressed: () async {
+                
+                await FirebaseAuth.instance.verifyPhoneNumber(
+                  verificationCompleted: (PhoneAuthCredential credential) {},
+                  verificationFailed: (FirebaseAuthException ex) {
+                    
+                  },
+                  codeSent: (String verificationId, int? resendToken) {
+                    
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => OtpAuth(verificationId: verificationId,),
+                      ),
+                    );
+                  },
+                  codeAutoRetrievalTimeout: (String verificationId) {},
+                  phoneNumber: phoneController.text.toString(),
                 );
               },
               child: const Text(
