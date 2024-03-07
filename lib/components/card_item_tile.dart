@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:zomato_clone/model/menu_item.dart';
 import 'package:zomato_clone/provider/cart_provider.dart';
 
 class CartItemTile extends StatefulWidget {

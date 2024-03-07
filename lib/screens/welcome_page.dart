@@ -15,9 +15,8 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var _mediaQuery = MediaQuery.of(context);
+    var mediaQuery = MediaQuery.of(context);
     double screenWidth = MediaQuery.of(context).size.width;
-    print(screenWidth);
     double fontSize = screenWidth < 400 ? 15 : 17;
     return GestureDetector(
       onTap: () {
@@ -29,7 +28,7 @@ class _WelcomePageState extends State<WelcomePage> {
             child: Column(
               children: [
                 Container(
-                  height: _mediaQuery.size.height * 0.42,
+                  height: mediaQuery.size.height * 0.42,
                   width: double.infinity,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
@@ -66,9 +65,9 @@ class _WelcomePageState extends State<WelcomePage> {
                       Container(
                           margin: const EdgeInsets.only(right: 12),
                           height: 1,
-                          width: _mediaQuery.size.width * 0.22,
+                          width: mediaQuery.size.width * 0.22,
                           color: Colors.grey),
-                       Text(
+                      Text(
                         'Log in or sign up',
                         style: TextStyle(
                             color: Color.fromARGB(255, 65, 61, 61),
@@ -78,7 +77,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       Container(
                         margin: const EdgeInsets.only(left: 12),
                         height: 1,
-                        width: _mediaQuery.size.width * 0.22,
+                        width: mediaQuery.size.width * 0.22,
                         color: Colors.grey,
                       ),
                     ],
@@ -92,19 +91,21 @@ class _WelcomePageState extends State<WelcomePage> {
 
                 const SizedBox(height: 100),
                 //text
-                 Text(
+                Text(
                   'By continuing, you agree to our',
                   style: TextStyle(
-                      color: Color.fromARGB(255, 65, 61, 61),
-                      fontSize: fontSize,
-                      fontWeight: FontWeight.bold),
+                    color: const Color.fromARGB(255, 65, 61, 61),
+                    fontSize: fontSize,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                 Text(
+                Text(
                   'Terms of Service  Privacy Policy  Content Policy',
                   style: TextStyle(
-                      color: Color.fromARGB(255, 65, 61, 61),
-                      fontSize: fontSize,
-                      fontWeight: FontWeight.bold),
+                    color: const Color.fromARGB(255, 65, 61, 61),
+                    fontSize: fontSize,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),

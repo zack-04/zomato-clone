@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zomato_clone/components/categories_slider.dart';
 import 'package:zomato_clone/components/offer_carousel.dart';
-import 'package:zomato_clone/data/restaurant_data.dart';
 import 'package:zomato_clone/provider/restaurant_provider.dart';
+import 'package:zomato_clone/provider/user_provider.dart';
 import 'package:zomato_clone/screens/restaurant_list.dart';
 import 'package:zomato_clone/components/bottom_bar.dart';
 import 'package:zomato_clone/screens/profile_page.dart';
@@ -12,6 +13,7 @@ import "package:provider/provider.dart";
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+  //  final String phoneNumber;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -19,111 +21,141 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+      print(userProvider.phoneNumber);
+      userProvider.fetchUserDetailsByPhoneNumber(userProvider.phoneNumber);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       backgroundColor: Colors.grey[50],
       body: Column(
         children: [
-          //header
-          Container(
-            child: Container(
-              margin: const EdgeInsets.only(top: 45, bottom: 15),
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Row(
-                children: [
-                  const CircleAvatar(
-                    backgroundColor: Colors.pink,
-                    radius: 18,
-                    child: Icon(
-                      Icons.location_on_outlined,
-                      size: 25,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            'Home',
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                          SizedBox(
-                            width: 2,
-                          ),
-                          FaIcon(
-                            FontAwesomeIcons.angleDown,
-                            size: 15,
-                          ),
-                        ],
+          userProvider.isLoading
+              ? Container(
+                  margin: const EdgeInsets.only(top: 40),
+                  child: const CircularProgressIndicator(),
+                )
+              : userProvider.error.isNotEmpty
+                  ? Container(
+                      margin: const EdgeInsets.only(top: 40),
+                      child: Text(
+                        userProvider.error,
+                        style: TextStyle(fontSize: 18.sp),
                       ),
-                      Text(
-                        'Karol Bagh, New Delhi',
-                        style: TextStyle(color: Colors.black38, fontSize: 13),
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  Row(
-                    children: [
-                      Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const SearchScreen(),
+                    )
+                  :
+                  //header
+                  Container(
+                      child: Container(
+                        margin: const EdgeInsets.only(top: 45, bottom: 15),
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: Row(
+                          children: [
+                            const CircleAvatar(
+                              backgroundColor: Colors.pink,
+                              radius: 18,
+                              child: Icon(
+                                Icons.location_on_outlined,
+                                size: 25,
+                                color: Colors.white,
                               ),
-                            );
-                          },
-                          icon: const Icon(
-                            Icons.search,
-                            size: 28,
-                          ),
-                          color: Colors.pink,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Home',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
+                                    ),
+                                    SizedBox(
+                                      width: 2,
+                                    ),
+                                    FaIcon(
+                                      FontAwesomeIcons.angleDown,
+                                      size: 15,
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  'Karol Bagh, New Delhi',
+                                  style: TextStyle(
+                                      color: Colors.black38, fontSize: 13),
+                                ),
+                              ],
+                            ),
+                            const Spacer(),
+                            Row(
+                              children: [
+                                Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: IconButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SearchScreen(),
+                                        ),
+                                      );
+                                    },
+                                    icon: const Icon(
+                                      Icons.search,
+                                      size: 28,
+                                    ),
+                                    color: Colors.pink,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 7,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ProfilePage(),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                    ),
+                                    height: 36,
+                                    width: 36,
+                                    child: ClipOval(
+                                      child: Image.asset(
+                                        'assets/images/img1.jpeg',
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(
-                        width: 7,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ProfilePage(),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          height: 36,
-                          width: 36,
-                          child: ClipOval(
-                            child: Image.asset(
-                              'assets/images/img1.jpeg',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
+                    ),
           const SizedBox(
             height: 5,
           ),
@@ -132,7 +164,8 @@ class _HomeScreenState extends State<HomeScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  OfferCarousel(),
+                  //carousel
+                  const OfferCarousel(),
                   const SizedBox(height: 8),
                   //text
                   Container(
@@ -152,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(height: 10),
                   ChangeNotifierProvider(
                     create: (context) => RestaurantProvider(),
-                    child: RestaurantList(),
+                    child: const RestaurantList(),
                   ),
                 ],
               ),

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:zomato_clone/components/otp_auth.dart';
-import 'package:zomato_clone/screens/home_screen.dart';
+import 'package:zomato_clone/data/database_manager.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -19,7 +19,7 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         children: [
           //container having indian flag and text field
-          Container(
+          SizedBox(
             width: double.infinity,
             child: Row(
               children: [
@@ -84,15 +84,16 @@ class _LoginFormState extends State<LoginForm> {
                 
                 await FirebaseAuth.instance.verifyPhoneNumber(
                   verificationCompleted: (PhoneAuthCredential credential) {},
-                  verificationFailed: (FirebaseAuthException ex) {
-                    
-                  },
+                  verificationFailed: (FirebaseAuthException ex) {},
                   codeSent: (String verificationId, int? resendToken) {
-                    
+                    DatabaseManager().checkUserLogin(phoneController.text.toString());
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => OtpAuth(verificationId: verificationId,),
+                        builder: (context) => OtpAuth(
+                          verificationId: verificationId,
+                          phoneNumber: phoneController.text.toString(),
+                        ),
                       ),
                     );
                   },

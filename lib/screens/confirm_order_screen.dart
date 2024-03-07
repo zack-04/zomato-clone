@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:zomato_clone/screens/home_screen.dart';
 
 class ConfirmOrder extends StatefulWidget {
-  ConfirmOrder({super.key});
+  const ConfirmOrder({super.key});
 
   @override
   State<ConfirmOrder> createState() => _ConfirmOrderState();
@@ -15,23 +15,22 @@ class ConfirmOrder extends StatefulWidget {
 class _ConfirmOrderState extends State<ConfirmOrder> {
   late ConfettiController controller;
 
-  // Function to play the confirmation sound
-  void playConfirmationSound() {
-    // Load the audio file
-    AssetsAudioPlayer.newPlayer().open(
-    Audio("assets/audio/zomato_sound.mp3"),
-    autoStart: true,
-    showNotification: false,
-);
-   
-  }
+  // //Function to play the confirmation sound
+  // void playConfirmationSound() {
+  //   // Load the audio file
+  //   AssetsAudioPlayer.newPlayer().open(
+  //     Audio("assets/audio/zomato_sound.mp3"),
+  //     autoStart: true,
+  //     showNotification: false,
+  //   );
+  // }
 
   @override
   void initState() {
     super.initState();
     controller = ConfettiController(duration: const Duration(seconds: 5));
     controller.play();
-    playConfirmationSound();
+    //  playConfirmationSound();
   }
 
   @override
@@ -51,36 +50,32 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
           children: [
             ConfettiWidget(
               confettiController: controller,
-               blastDirectionality: BlastDirectionality.explosive,
+              blastDirectionality: BlastDirectionality.explosive,
               numberOfParticles: 20,
               shouldLoop: false,
-              blastDirection: -pi/2,
+              blastDirection: -pi / 2,
             ),
-            Container(
+            SizedBox(
               width: 150,
               child: Image.asset('assets/images/tick.jpg'),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
-            Container(
-              child: const Text(
-                'Order confirmed',
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
-              ),
+            const Text(
+              'Order confirmed',
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
             ),
-            
-            Container(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HomeScreen(),
-                      ),);
-                },
-                child: Text('Go to home'),
-              ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HomeScreen(),
+                  ),
+                );
+              },
+              child: const Text('Go to home'),
             )
           ],
         ),

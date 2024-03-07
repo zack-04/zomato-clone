@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:zomato_clone/model/menu_item.dart';
 
 class CartProvider extends ChangeNotifier {
   List<Map<String, dynamic>> _cartItems = [];

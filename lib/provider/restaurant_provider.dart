@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class RestaurantProvider extends ChangeNotifier {
-  List<Map<String, dynamic>> _restaurants = [];
+  final List<Map<String, dynamic>> _restaurants = [];
   bool _isLoading = false;
   String _error = '';
 

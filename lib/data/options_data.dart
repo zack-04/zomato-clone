@@ -22,3 +22,12 @@ List<Options> accountOptions = [
     icon: const FaIcon(FontAwesomeIcons.arrowRightFromBracket),
   )
 ];
+
+List<String> label = [
+  'Name',
+  'Mobile',
+  'Email',
+  'Date of birth',
+  'Anniversary',
+  'Gender',
+];

@@ -26,18 +26,33 @@ class DatabaseManager {
     }
   }
 
-  Future createOrder(
-      double totalAmount, List<Map<String, dynamic>> items,String resName) async {
-
+  Future createOrder(double totalAmount, List<Map<String, dynamic>> items,
+      String resName) async {
     final orderData = {
       "totalAmount": totalAmount,
       "orderDate": Timestamp.now(),
       "orderItems": items,
-      "resName":resName,
-
+      "resName": resName,
     };
 
     await ordersRef.doc().set(orderData).onError(
         (error, stackTrace) => print("Error writing document: $error"));
+  }
+
+  Future checkUserLogin(String phoneNumber) async {
+    CollectionReference users = FirebaseFirestore.instance.collection('Users');
+    QuerySnapshot query =
+        await users.where('phoneNumber', isEqualTo: phoneNumber).get();
+    if (query.docs.isEmpty) {
+      await users.add(
+        {
+          'phoneNumber': phoneNumber,
+          'name': '',
+          'email': '',
+          'dob': '',
+          'gender': '',
+        },
+      );
+    }
   }
 }

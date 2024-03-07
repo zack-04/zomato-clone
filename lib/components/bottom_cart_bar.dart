@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:zomato_clone/screens/cart_screen.dart';
 
 class BottomCartBar extends StatelessWidget {
-  BottomCartBar({super.key,required this.cartLength});
-  int cartLength;
+  const BottomCartBar({super.key,required this.cartLength});
+  final int cartLength;
 
   @override
   Widget build(BuildContext context) {

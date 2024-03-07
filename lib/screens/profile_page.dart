@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:zomato_clone/data/options_data.dart';
 import 'package:zomato_clone/provider/order_provider.dart';
 import 'package:zomato_clone/screens/my_orders.dart';
+import 'package:zomato_clone/screens/my_profile.dart';
 import 'package:zomato_clone/screens/welcome_page.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -25,15 +26,25 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             Stack(
               children: [
-                Container(
-                  margin: const EdgeInsets.only(left: 15, right: 15),
-                  height: 210,
-                  width: double.infinity,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.asset(
-                      'assets/images/profile_card.jpeg',
-                      fit: BoxFit.cover,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MyProfile(label: [],),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 15, right: 15),
+                    height: 210,
+                    width: double.infinity,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.asset(
+                        'assets/images/profile_card.jpeg',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -119,7 +130,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     //2nd container
                     Container(
-                      padding: EdgeInsets.all(screenWidth*0.06),
+                      padding: EdgeInsets.all(screenWidth * 0.06),
                       child: Row(
                         children: [
                           Container(

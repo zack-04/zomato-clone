@@ -4,13 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:zomato_clone/components/menu_item_card.dart';
 import 'package:zomato_clone/components/bottom_cart_bar.dart';
 import 'package:zomato_clone/data/database_manager.dart';
-import 'package:zomato_clone/model/menu_item.dart';
-import 'package:zomato_clone/model/restaurant.dart';
 import 'package:zomato_clone/provider/cart_provider.dart';
-import 'package:zomato_clone/screens/cart_screen.dart';
 
 class RestaurantDetails extends StatefulWidget {
-  RestaurantDetails({
+  const RestaurantDetails({
     super.key,
     required this.restaurant,
   });
@@ -59,9 +56,6 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
 
   @override
   Widget build(BuildContext context) {
-    var _mediaQuery = MediaQuery.of(context);
-    double screenWidth = MediaQuery.of(context).size.width;
-    
     final cartProvider = Provider.of<CartProvider>(context);
     return Scaffold(
       //appbar
@@ -158,37 +152,41 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
                     height: 10,
                   ),
                   //time and place
-                  Container(
-                    width: _mediaQuery.size.width*0.7,
-                    margin: EdgeInsets.symmetric(
-                        horizontal: 50.0), // Auto margin from sides
-                    
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
+                  IntrinsicWidth(
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: Color.fromARGB(255, 244, 242, 246),
-                        border: Border.all(color: Color.fromARGB(255, 239, 235, 235), width: 1, style: BorderStyle.solid)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.timer),
-                        const SizedBox(
-                          width: 3,
-                        ),
-                        const Text('30-35 min'),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Container(
-                          height: 9,
+                        color: const Color.fromARGB(255, 244, 242, 246),
+                        border: Border.all(
+                          color: const Color.fromARGB(255, 239, 235, 235),
                           width: 1,
-                          color: Colors.grey,
+                          style: BorderStyle.solid,
                         ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Expanded(child: Text(widget.restaurant["address"]))
-                      ],
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.timer),
+                          const SizedBox(
+                            width: 3,
+                          ),
+                          const Text('30-35 min'),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Container(
+                            height: 9,
+                            width: 1,
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Expanded(child: Text(widget.restaurant["address"]))
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -217,24 +215,21 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
                   ),
                   isLoading
                       ? Container(
-                          margin: EdgeInsets.only(top: 40),
+                          margin: const EdgeInsets.only(top: 40),
                           child: const CircularProgressIndicator(),
                         )
                       : error.isNotEmpty
                           ? Container(
-                              margin: EdgeInsets.only(top: 40),
+                              margin: const EdgeInsets.only(top: 40),
                               child: Text(
                                 error,
-                                style: TextStyle(fontSize: 18),
+                                style: const TextStyle(fontSize: 18),
                               ),
                             )
                           //list of food and images
                           :
                           //card
                           Container(
-                              // height: 280,
-                              // width: double.infinity,
-                              // color: Colors.black,
                               child: ListView.builder(
                                 physics: const ClampingScrollPhysics(),
                                 scrollDirection: Axis.vertical,
@@ -260,7 +255,7 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
                   child:
                       BottomCartBar(cartLength: cartProvider.cartItems.length),
                 )
-              : SizedBox(),
+              : const SizedBox(),
         ],
       ),
     );
